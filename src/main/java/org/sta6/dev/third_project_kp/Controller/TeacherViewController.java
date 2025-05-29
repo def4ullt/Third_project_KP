@@ -16,7 +16,7 @@ public class TeacherViewController {
         this.teacherRepository = teacherRepository;
     }
 
-    @GetMapping("/")
+    @GetMapping("/teacher")
     public String showTeachers(Model model) {
         model.addAttribute("teachers", teacherRepository.findAll());
         return "teacher";

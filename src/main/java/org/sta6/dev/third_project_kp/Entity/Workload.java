@@ -3,6 +3,7 @@ package org.sta6.dev.third_project_kp.Entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "workloads")
 @IdClass(WorkloadId.class)
 public class Workload {
 
@@ -28,7 +29,15 @@ public class Workload {
     @Column(name = "practical_hours")
     private Integer practical_Hours;
 
+    @ManyToOne
+    @JoinColumn(name = "teacher_id", insertable = false, updatable = false)
+    private Teacher teacher;
 
+    @ManyToOne
+    @JoinColumn(name = "subject_id", insertable = false, updatable = false)
+    private Subject subject;
+
+    // Гетери й сетери...
 
     public Long getTeacher_Id() {
         return teacher_Id;
@@ -76,5 +85,13 @@ public class Workload {
 
     public void setPractical_Hours(Integer practicalHours) {
         this.practical_Hours = practicalHours;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public Subject getSubject() {
+        return subject;
     }
 }
