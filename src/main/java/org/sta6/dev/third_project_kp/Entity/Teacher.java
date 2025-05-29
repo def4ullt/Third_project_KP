@@ -3,6 +3,7 @@ package org.sta6.dev.third_project_kp.Entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "teachers")
 public class Teacher {
 
     @Id
