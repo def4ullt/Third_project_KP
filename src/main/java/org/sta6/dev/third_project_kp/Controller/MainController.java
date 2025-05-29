@@ -11,4 +11,14 @@ public class MainController {
     public String showMain(Model model) {
         return "main";
     }
+
+    @GetMapping("/login")
+    public String showLogin(Model model) {
+        return "login";
+    }
+
+    @GetMapping("/register")
+    public String showRegister(Model model) {
+        return "register";
+    }
 }

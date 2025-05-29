@@ -13,7 +13,7 @@
     <a href="/workload">Навантаження</a>
     <a href="/teacher">Викладачі</a>
     <a href="/subject">Предмети</a>
-    <a>Ввійти</a>
+    <a href="/login">Ввійти</a>
   </nav>
 </header>
 
