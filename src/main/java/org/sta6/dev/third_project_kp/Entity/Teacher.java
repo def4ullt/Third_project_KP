@@ -18,6 +18,10 @@ public class Teacher {
     private String position;
     private int experience;
 
+    @ManyToOne
+    @JoinColumn(name = "owner")
+    private logindata owner;
+
     public Long getTeacher_Id() {
         return teacher_Id;
     }
@@ -46,6 +50,7 @@ public class Teacher {
         return experience;
     }
 
+    public logindata getOwner() {return owner;}
 
     public void setTeacher_Id(Long teacherId) {
         this.teacher_Id = teacherId;
@@ -74,4 +79,6 @@ public class Teacher {
     public void setExperience(int experience) {
         this.experience = experience;
     }
+
+    public void setOwner(logindata owner) {this.owner = owner;}
 }

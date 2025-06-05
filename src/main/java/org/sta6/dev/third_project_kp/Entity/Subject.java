@@ -13,6 +13,10 @@ public class Subject {
     private String name;
     private int hours;
 
+    @ManyToOne
+    @JoinColumn(name = "owner")
+    private logindata owner;
+
     public Long getSubject_id() {
         return subject_id;
     }
@@ -36,4 +40,8 @@ public class Subject {
     public void setHours(int hours) {
         this.hours = hours;
     }
+
+    public logindata getOwner() {return owner;}
+
+    public void setOwner(logindata owner) {this.owner = owner;}
 }

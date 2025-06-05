@@ -1,4 +1,4 @@
-package org.sta6.dev.dto;
+package org.sta6.dev.third_project_kp.dto;
 
 import lombok.Data;
 

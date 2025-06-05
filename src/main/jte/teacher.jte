@@ -1,7 +1,8 @@
 @import java.util.List
 @import org.sta6.dev.third_project_kp.Entity.Teacher
 @param List<Teacher> teachers
-
+@param String username
+@param Boolean isAdmin
 
 <!DOCTYPE html>
 <html lang="uk">
@@ -12,16 +13,32 @@
 </head>
 <body>
 
+
+
+
 <header>
-
-    <a class="logo" href="/">Головне меню</a>
-
+    <div class="logo">Головне меню</div>
     <nav id="nav-menu">
-        <a href="/workload">Навантаження</a>
-        <a href="/subject">Предмети</a>
-        <a>Ввійти</a>
+        @if(username != null)
+            <span>Ви увійшли як <strong>${username}</strong></span>
+        @endif
+        @if(isAdmin)
+            <a href="/adminPanel">Панель даних для входу</a>
+        @endif
+        @if(username != null)
+            <a href="/workload">Навантаження</a>
+            <a href="/subject">Предмети</a>
+            <a href="/logout">Вийти</a>
+        @else
+            <a href ="/login">Ввійти</a>
+        @endif
     </nav>
 </header>
+
+<div style="width: 90%; margin: 20px auto; display: flex; justify-content: flex-end;">
+    <button href="/create" class="create-btn">Створити</button>
+</div>
+
 
 <table>
     <thead>
@@ -33,6 +50,7 @@
         <th>Академічний ступінь</th>
         <th>Посада</th>
         <th>Стаж</th>
+        <th>Ким створено:</th>>
         <th>Дії</th>
     </tr>
 
@@ -47,7 +65,13 @@
             <td>${teacher.getAcademic_degree()}</td>
             <td>${teacher.getPosition()}</td>
             <td>${teacher.getExperience()}</td>
-            <td></td>
+            <td>${teacher.getOwner().getUsername()}</td>
+            <td>
+                @if(username == teacher.getOwner().getUsername() || isAdmin)
+                    <button class="btn-edit" onclick="editItem(subject.getSubject_id())">Редагувати</button>
+                    <button class="btn-del" onclick="deleteItem(subject.getSubject_id())">Видалити</button>
+                @endif
+            </td>
         </tr>
     @endfor
     </tbody>

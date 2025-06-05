@@ -9,21 +9,18 @@
 
 <header>
   <div class="logo">Вхід до системи</div>
-  <nav id="nav-menu">
-    <a href="/workload">Навантаження</a>
-  </nav>
 </header>
 
 
-<form>
+<form method="post" action="/login">
   <label for="username">Логін</label>
-  <input type="text" id="username" name="username">
+  <input type="text" id="username" name="username" required>
 
   <label for="password">Пароль</label>
-  <input type="password" id="password" name="password">
+  <input type="password" id="password" name="password" required>
 
 
-  <button href="/" type="submit">Увійти</button>
+  <button type="submit">Увійти</button>
   <a href="/register" type="submit">Зареєструватись</a>
 
 </form>

@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.sta6.dev.dto.RegisterRequest;
+import org.sta6.dev.third_project_kp.dto.RegisterRequest;
 import org.sta6.dev.third_project_kp.Entity.logindata;
 import org.sta6.dev.third_project_kp.Repository.loginDataRepository;
 
 
 @RestController
 @RequestMapping("/api")
-public class AuthController {
+public class  AuthController {
 
     private final loginDataRepository loginDataRepository;
     private final PasswordEncoder passwordEncoder;
@@ -42,7 +42,7 @@ public class AuthController {
         logindata loginData = new logindata();
         loginData.setUsername(registerRequest.getUsername());
         loginData.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        loginData.setRole("ROLE_USER");
+        loginData.setRole("USER");
 
         loginDataRepository.save(loginData);
 

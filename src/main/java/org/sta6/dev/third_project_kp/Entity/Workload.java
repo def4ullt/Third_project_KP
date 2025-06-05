@@ -23,6 +23,9 @@ public class Workload {
     @Column(name = "year")
     private Integer year;
 
+    @Column(name = "owner")
+    private Integer owner;
+
     @Column(name = "lecture_hours")
     private Integer lecture_Hours;
 
@@ -36,6 +39,10 @@ public class Workload {
     @ManyToOne
     @JoinColumn(name = "subject_id", insertable = false, updatable = false)
     private Subject subject;
+
+    @ManyToOne
+    @JoinColumn(name = "owner", insertable = false, updatable = false)
+    private logindata owner_info;
 
     // Гетери й сетери...
 
@@ -93,5 +100,29 @@ public class Workload {
 
     public Subject getSubject() {
         return subject;
+    }
+
+    public Integer getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Integer owner) {
+        this.owner = owner;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+
+    public logindata getOwner_info() {
+        return owner_info;
+    }
+
+    public void setOwner_info(logindata owner_info) {
+        this.owner_info = owner_info;
     }
 }

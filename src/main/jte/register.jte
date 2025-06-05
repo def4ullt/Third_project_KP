@@ -23,7 +23,7 @@
     <input type="password" name="password" required>
 
     <label for="password">Повторіть пароль</label>
-    <input type="password" name="password" required>
+    <input type="password" id="confirmPassword" name="confirmPassword" required>
 
     <button type="submit">Зареєструватись</button>
 
@@ -38,6 +38,15 @@
         const formData = new FormData(this);
         const data = Object.fromEntries(formData.entries());
 
+        // Додано: перевірка паролів
+        if (data.password !== data.confirmPassword) {
+            document.getElementById('message').innerText = 'Паролі не збігаються!';
+            return;
+        }
+
+        // Видаляємо confirmPassword перед відправкою
+        delete data.confirmPassword;
+
         const response = await fetch('/api/register', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -46,12 +55,13 @@
 
         const text = await response.text();
         if (response.ok) {
-            window.location.href = '/login'; // редирект на логін
+            window.location.href = '/login';
         } else {
             document.getElementById('message').innerText = text;
         }
     });
 </script>
+
 
 
 </body>

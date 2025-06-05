@@ -1,3 +1,6 @@
+@param String username
+@param Boolean isAdmin
+
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -10,10 +13,20 @@
 <header>
   <div class="logo">Головне меню</div>
   <nav id="nav-menu">
+    @if(username != null)
+    <span>Ви увійшли як <strong>${username}</strong></span>
+    @endif
+    @if(isAdmin)
+    <a href="/adminPanel">Панель даних для входу</a>
+    @endif
+    @if(username != null)
     <a href="/workload">Навантаження</a>
     <a href="/teacher">Викладачі</a>
     <a href="/subject">Предмети</a>
-    <a href="/login">Ввійти</a>
+    <a href="/logout">Вийти</a>
+    @else
+      <a href ="/login">Ввійти</a>
+    @endif
   </nav>
 </header>
 
