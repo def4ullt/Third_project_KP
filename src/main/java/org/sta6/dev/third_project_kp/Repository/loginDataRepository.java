@@ -11,4 +11,6 @@ public interface loginDataRepository extends CrudRepository<logindata, Long> {
     boolean existsByUsername(String username);
 
     Optional<logindata> findByUsername(String username);
+
+
  }

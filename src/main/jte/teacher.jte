@@ -13,9 +13,6 @@
 </head>
 <body>
 
-
-
-
 <header>
     <div class="logo">Головне меню</div>
     <nav id="nav-menu">
@@ -30,15 +27,14 @@
             <a href="/subject">Предмети</a>
             <a href="/logout">Вийти</a>
         @else
-            <a href ="/login">Ввійти</a>
+            <a href="/login">Ввійти</a>
         @endif
     </nav>
 </header>
 
 <div style="width: 90%; margin: 20px auto; display: flex; justify-content: flex-end;">
-    <button href="/create" class="create-btn">Створити</button>
+    <a href="/teacher/create" class="create-btn">Створити</a>
 </div>
-
 
 <table>
     <thead>
@@ -50,10 +46,9 @@
         <th>Академічний ступінь</th>
         <th>Посада</th>
         <th>Стаж</th>
-        <th>Ким створено:</th>>
+        <th>Ким створено:</th>
         <th>Дії</th>
     </tr>
-
     </thead>
     <tbody>
     @for(Teacher teacher : teachers)
@@ -65,17 +60,33 @@
             <td>${teacher.getAcademic_degree()}</td>
             <td>${teacher.getPosition()}</td>
             <td>${teacher.getExperience()}</td>
-            <td>${teacher.getOwner().getUsername()}</td>
             <td>
-                @if(username == teacher.getOwner().getUsername() || isAdmin)
-                    <button class="btn-edit" onclick="editItem(subject.getSubject_id())">Редагувати</button>
-                    <button class="btn-del" onclick="deleteItem(subject.getSubject_id())">Видалити</button>
+                @if(teacher.getOwner() != null)
+                    ${teacher.getOwner().getUsername()}
+                @else
+                    Невідомо
+                @endif
+            </td>
+            <td>
+                @if(teacher.getOwner() != null && username.equals(teacher.getOwner().getUsername()) || isAdmin)
+                    <button class="btn-edit" onclick="location.href='/teacher/edit/${teacher.getTeacher_Id()}'">Редагувати</button>
+                    <button class="btn-del" onclick="deleteItem(${teacher.getTeacher_Id()})">Видалити</button>
                 @endif
             </td>
         </tr>
     @endfor
     </tbody>
 </table>
+
+<script>
+    function deleteItem(id) {
+        if (confirm('Ви впевнені, що хочете видалити викладача?')) {
+            fetch('/teacher/' + id, {
+                method: 'DELETE'
+            }).then(() => location.reload());
+        }
+    }
+</script>
 
 </body>
 </html>

@@ -1,6 +1,8 @@
 package org.sta6.dev.third_project_kp.Entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name = "workloads")
@@ -34,10 +36,12 @@ public class Workload {
 
     @ManyToOne
     @JoinColumn(name = "teacher_id", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Teacher teacher;
 
     @ManyToOne
     @JoinColumn(name = "subject_id", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Subject subject;
 
     @ManyToOne

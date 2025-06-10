@@ -52,17 +52,31 @@
             <td>${subject.getSubject_id()}</td>
             <td>${subject.getName()}</td>
             <td>${subject.getHours()}</td>
-            <td>${subject.getOwner().getUsername()}</td>
             <td>
-                @if(username == subject.getOwner().getUsername() || isAdmin)
-                    <button class="btn-edit" onclick="editItem(subject.getSubject_id())">Редагувати</button>
-                    <button class="btn-del" onclick="deleteItem(subject.getSubject_id())">Видалити</button>
+                @if(subject.getOwner() != null)
+                    ${subject.getOwner().getUsername()}
+                @else
+                    Невідомо
+                @endif
+            </td>
+            <td>
+                @if(subject.getOwner() != null && username.equals(subject.getOwner().getUsername()) || isAdmin)
+                    <button class="btn-edit" onclick="location.href='/subject/edit/${subject.getSubject_id()}'">Редагувати</button>
+                    <button class="btn-del" onclick="deleteItem(${subject.getSubject_id()})">Видалити</button>
                 @endif
             </td>
         </tr>
     @endfor
     </tbody>
 </table>
-
+<script>
+    function deleteItem(id) {
+        if (confirm('Ви впевнені, що хочете видалити предмет?')) {
+            fetch('/subject/' + id, {
+                method: 'DELETE'
+            }).then(() => location.reload());
+        }
+    }
+</script>
 </body>
 </html>

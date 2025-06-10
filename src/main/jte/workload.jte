@@ -54,17 +54,36 @@
     <td>${workload.getYear()}</td>
     <td>${workload.getLecture_Hours()}</td>
     <td>${workload.getPractical_Hours()}</td>
-    <td>${workload.getOwner_info().getUsername()}</td>
     <td>
-      @if(username == workload.getOwner_info().getUsername() || isAdmin)
-        <button class="btn-edit" onclick="editItem(subject.getSubject_id())">Редагувати</button>
-        <button class="btn-del" onclick="deleteItem(subject.getSubject_id())">Видалити</button>
+      @if(workload.getOwner() != null)
+        ${workload.getOwner_info().getUsername()}
+      @else
+        Невідомо
+      @endif
+    </td>
+    <td>
+      @if(workload.getOwner() != null && username.equals(workload.getOwner_info().getUsername()) || isAdmin)
+        <button class="btn-edit" onclick="location.href='/workload/edit/${workload.getTeacher_Id()}'">Редагувати</button>
+          <button class="btn-del"
+                  onclick="deleteItem('${workload.getTeacher_Id()}', '${workload.getSubject_Id()}', '${workload.getGroup_Id()}', '${workload.getYear()}')">
+              Видалити
+          </button>
       @endif
     </td>
   </tr>
   @endfor
   </tbody>
 </table>
+
+<script>
+    function deleteItem(teacherId, subjectId, groupId, year) {
+        if (confirm('Ви впевнені, що хочете видалити запис?')) {
+            fetch(`/api/workload/` + teacherId + `/` + subjectId + `/` + groupId + `/` + year, {
+                method: 'DELETE'
+            }).then(() => location.reload());
+        }
+    }
+</script>
 
 </body>
 </html>
