@@ -20,50 +20,33 @@ public class LoginDataController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // Відображення таблиці користувачів
+    // Відображення всіх користувачів
     @GetMapping
     public String getAllUsers(Model model) {
         List<logindata> users = (List<logindata>) loginDataRepository.findAll();
         model.addAttribute("loginData", users);
-        model.addAttribute("newUser", new logindata()); // Для форми додавання
         return "adminPanel";
     }
 
-    // Додавання користувача
-    @PostMapping("/add")
-    public String addUser(@ModelAttribute("newUser") logindata user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        loginDataRepository.save(user);
-        return "redirect:/adminPanel";
-    }
+    // Додавання або оновлення користувача
+    @PostMapping("/save")
+    public String saveUser(@ModelAttribute logindata user) {
+        logindata existing = loginDataRepository.findById(user.getId()).orElseThrow();
+        existing.setUsername(user.getUsername());
+        existing.setRole(user.getRole());
 
-    // Відображення форми редагування
-    @GetMapping("/edit/{id}")
-    public String editUserForm(@PathVariable Long id, Model model) {
-        logindata user = loginDataRepository.findById(id).orElseThrow();
-        model.addAttribute("user", user);
-        return "user_edit";
-    }
-
-    // Оновлення користувача
-    @PostMapping("/update")
-    public String updateUser(@ModelAttribute logindata updatedUser) {
-        logindata existingUser = loginDataRepository.findById(updatedUser.getId()).orElseThrow();
-
-        existingUser.setUsername(updatedUser.getUsername());
-        existingUser.setRole(updatedUser.getRole());
-
-        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
-            existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            existing.setPassword(passwordEncoder.encode(user.getPassword()));
         }
 
-        loginDataRepository.save(existingUser);
-        return "redirect:/adminPanel";
+        loginDataRepository.save(existing);
+
+        return "redirect:/user";
     }
 
-
+    // Видалення
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id ) {
+    public void deleteById(@PathVariable Long id) {
         loginDataRepository.deleteById(id);
     }
 }

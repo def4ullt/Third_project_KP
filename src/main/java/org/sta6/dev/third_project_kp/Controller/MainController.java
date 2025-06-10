@@ -15,9 +15,6 @@ public class MainController {
                 boolean isAdmin = authentication.getAuthorities().stream()
                         .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
                 model.addAttribute("isAdmin", isAdmin);
-            } else {
-                model.addAttribute("username", null);
-                model.addAttribute("isAdmin", false);
             }
             return "main";
         }
