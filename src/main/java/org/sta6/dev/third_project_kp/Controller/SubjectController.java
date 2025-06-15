@@ -1,6 +1,8 @@
 package org.sta6.dev.third_project_kp.Controller;
 
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.sta6.dev.third_project_kp.Entity.Subject;
@@ -14,7 +16,7 @@ import org.sta6.dev.third_project_kp.Repository.loginDataRepository;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/subject")
+@RequestMapping("/subjectAPI")
 public class SubjectController {
 
     private final SubjectRepository subjectRepository;
@@ -26,16 +28,7 @@ public class SubjectController {
         this.loginDataRepository = loginDataRepository;
     }
 
-    @PostMapping
-    public Subject addSubject(Authentication authentication, @RequestBody Subject subject) {
-        String currentUsername = authentication.getName(); // Отримуємо ім'я користувача
 
-        // Шукаємо LoginData по username
-        Optional<logindata> owner = loginDataRepository.findByUsername(currentUsername);
-        subject.setOwner(owner.orElse(null)); // Встановлюємо об'єкт власника
-
-        return subjectRepository.save(subject);
-    }
 
 
     @PutMapping("/{id}")
@@ -53,6 +46,17 @@ public class SubjectController {
                     updatedSubject.setSubject_id(id);
                     return subjectRepository.save(updatedSubject);
                 });
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<Void> addSubject(Authentication authentication, @ModelAttribute Subject subject) {
+        String currentUsername = authentication.getName();
+        Optional<logindata> owner = loginDataRepository.findByUsername(currentUsername);
+        subject.setOwner(owner.orElse(null));
+        subjectRepository.save(subject);
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .header("Location", "/subject")
+                .build();
     }
 
     @DeleteMapping("/{id}")

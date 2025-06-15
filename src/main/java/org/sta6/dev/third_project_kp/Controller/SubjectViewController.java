@@ -5,16 +5,27 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.sta6.dev.third_project_kp.Entity.Subject;
+import org.sta6.dev.third_project_kp.Entity.logindata;
 import org.sta6.dev.third_project_kp.Repository.SubjectRepository;
+import org.sta6.dev.third_project_kp.Repository.loginDataRepository;
+
+import java.util.Optional;
 
 @Controller
 public class SubjectViewController {
 
     private final SubjectRepository subjectRepository;
 
+    private final loginDataRepository loginDataRepository;
+
     @Autowired
-    public SubjectViewController(SubjectRepository subjectRepository) {
+    public SubjectViewController(SubjectRepository subjectRepository, loginDataRepository loginDataRepository) {
         this.subjectRepository = subjectRepository;
+        this.loginDataRepository = loginDataRepository;
     }
 
     @GetMapping("/subject")
@@ -31,4 +42,6 @@ public class SubjectViewController {
         model.addAttribute("subjects", subjectRepository.findAll());
         return "subject";
     }
+
+
 }

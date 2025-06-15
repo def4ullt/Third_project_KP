@@ -14,7 +14,7 @@ public class logindata {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String username;
@@ -24,7 +24,7 @@ public class logindata {
 
     private String role;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

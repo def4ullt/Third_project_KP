@@ -14,6 +14,8 @@
 </head>
 <body>
 
+
+
 <header>
     <div class="logo">Головне меню</div>
     <nav id="nav-menu">
@@ -31,6 +33,14 @@
     </nav>
 </header>
 
+<section style="margin: 20px 0;">
+    <form action="/subjectAPI/save" method="post" id="userForm">
+        <input type="hidden" name="id" id="id">
+        <input type="text" name="name" id="name" placeholder="Назва предмету" required>
+        <input type="number" name="hours" id="hours" placeholder="Кількість годин">
+        <button type="submit" class="btn-edit" id="submitBtn">Додати предмет</button>
+    </form>
+</section>
 
 <div style="width: 90%; margin: 20px auto; display: flex; justify-content: flex-end;">
     <button href="/create" class="create-btn">Створити</button>
@@ -72,7 +82,7 @@
 <script>
     function deleteItem(id) {
         if (confirm('Ви впевнені, що хочете видалити предмет?')) {
-            fetch('/subject/' + id, {
+            fetch('/subjectAPI/' + id, {
                 method: 'DELETE'
             }).then(() => location.reload());
         }

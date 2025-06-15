@@ -19,6 +19,7 @@ public class LoginDataViewController {
     @GetMapping("/adminPanel")
     public String showLoginData(Model model) {
         model.addAttribute("loginData", loginDataRepository.findAll());
+        model.addAttribute("editingUser", null);
         return "admin";
     }
 }

@@ -9,6 +9,7 @@ import org.sta6.dev.third_project_kp.Entity.logindata;
 import org.sta6.dev.third_project_kp.Repository.loginDataRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/user")
@@ -28,20 +29,43 @@ public class LoginDataController {
         return "adminPanel";
     }
 
-    // Додавання або оновлення користувача
     @PostMapping("/save")
     public String saveUser(@ModelAttribute logindata user) {
-        logindata existing = loginDataRepository.findById(user.getId()).orElseThrow();
-        existing.setUsername(user.getUsername());
-        existing.setRole(user.getRole());
 
-        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-            existing.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (user.getId() != null) {
+            // Оновлення існуючого
+            logindata existing = loginDataRepository.findById(user.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("Користувача не знайдено: " + user.getId()));
+
+            existing.setUsername(user.getUsername());
+            existing.setRole(user.getRole());
+
+            if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+                existing.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
+
+            loginDataRepository.save(existing);
+        } else {
+            // Створення нового
+            if (user.getPassword() == null || user.getPassword().isEmpty()) {
+                throw new IllegalArgumentException("Пароль обов'язковий для нового користувача");
+            }
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            loginDataRepository.save(user);
         }
 
-        loginDataRepository.save(existing);
-
         return "redirect:/user";
+    }
+
+
+    @GetMapping("/edit/{id}")
+    public String editUser(@PathVariable Long id, Model model) {
+        logindata user = loginDataRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Користувача не знайдено: " + id));
+        List<logindata> users = (List<logindata>) loginDataRepository.findAll();
+        model.addAttribute("editingUser", user);
+        model.addAttribute("loginData", users);
+        return "admin";
     }
 
     // Видалення
